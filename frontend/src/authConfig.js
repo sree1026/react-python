@@ -14,7 +14,7 @@ export const msalConfig = {
     auth: {
         clientId: "e0061b03-17cd-4e24-93ed-fefe24983bf8",
         authority: "https://login.microsoftonline.com/06ed72e8-a419-4795-9eb3-5512cf1d3d98",
-        redirectUri: "http://localhost:3000/"
+        redirectUri: "https://react-python-sample.herokuapp.com/"
     },
     cache: {
         cacheLocation: "sessionStorage", // This configures where your cache will be stored
