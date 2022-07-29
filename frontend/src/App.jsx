@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from "@azure/msal-react";
 import { loginRequest } from "./authConfig";
 import { PageLayout } from "./components/PageLayout";
@@ -15,7 +15,9 @@ const ProfileContent = () => {
     const { instance, accounts } = useMsal();
     const [graphData, setGraphData] = useState(null);
     const [editAccess, setEditAccess] = useState(false);
-    const [textFromApi, setTextFromApi] = useState("");
+    const [sum, setSum] = useState(0);
+    const [num1, setNum1] = useState(5);
+    const [num2, setNum2] = useState(6);
 
     function RequestProfileData() {
         // Silently acquires an access token which is then attached to a request for MS Graph data
@@ -39,13 +41,25 @@ const ProfileContent = () => {
         "pointerEvents": editAccess ? "auto" : "none"
     }
 
-    function callPythonPost() {
-        axios.post("https://react-python-sample.herokuapp.com/flask/hello/", { message: "Hi da", type: "String" })
+    function getSumOfTwoNos() {
+        axios.post("https://react-python-sample.herokuapp.com/sum", { num1, num2 })
             .then(response => {
                 console.log("post success: ", response)
-                setTextFromApi(response.data.message);
+                setSum(response.data.result);
             })
             .catch(err => console.error(`Error: ${err}`))
+    }
+
+    function changeInput(e, target) {
+        switch (target) {
+            case "num1":
+                setNum1(e.target.value);
+                break;
+            case "num2":
+                setNum2(e.target.value);
+                break;
+            default:
+        }
     }
 
     return (
@@ -58,12 +72,11 @@ const ProfileContent = () => {
             }
             <h5>If you have access, then you can edit the following text box</h5>
             <div>
-                <input placeholder="Enter some text" style={editStyle}></input>
+                <input placeholder="Enter some number" style={editStyle} onClick={changeInput("num1")} value={num1}></input>
+                <input placeholder="Enter some number" style={editStyle} onClick={changeInput("num2")} value={num2}></input>
+                <button onClick={getSumOfTwoNos}>Get Sum from Server</button>
             </div>
-            <div>
-                <button onClick={callPythonPost}>Call Sample Python POST call</button>
-                {textFromApi.length !== 0 ? <h5>{textFromApi}</h5> : <></>}
-            </div>
+            <br></br>
         </>
     );
 };
@@ -72,6 +85,17 @@ const ProfileContent = () => {
  * If a user is authenticated the ProfileContent component above is rendered. Otherwise a message indicating a user is not authenticated is rendered.
  */
 const MainContent = () => {
+
+    const [message, setMessage] = useState("")
+
+    useEffect(() => {
+        axios.get("https://react-python-sample.herokuapp.com/hello")
+            .then(response => {
+                console.log("post success: ", response)
+                setMessage(response.data.message);
+            })
+            .catch(err => console.error(`Error: ${err}`))
+    }, [])
     return (
         <div className="App">
             <AuthenticatedTemplate>
@@ -81,6 +105,7 @@ const MainContent = () => {
             <UnauthenticatedTemplate>
                 <h5 className="card-title">Please sign-in to see your profile information.</h5>
             </UnauthenticatedTemplate>
+            {message.length !== 0 ? <h5>{message}</h5> : <></>}
         </div>
     );
 };
