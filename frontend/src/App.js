@@ -7,14 +7,14 @@ function App() {
   const [getMessage, setGetMessage] = useState({})
 
   useEffect(() => {
-    axios.get('http://localhost:5000/flask/hello').then(response => {
+    axios.get('http:https://react-python-sample.herokuapp.com/flask/hello').then(response => {
       console.log("SUCCESS", response)
       setGetMessage(response)
     }).catch(error => {
       console.log(error)
     })
     setTimeout(() => {
-      axios.post("http://localhost:5000/flask/hello/", { message: "Hi da", type: "String" })
+      axios.post("http:https://react-python-sample.herokuapp.com/flask/hello/", { message: "Hi da", type: "String" })
         .then(response => {
           console.log("post success: ", response)
           setGetMessage(response)
