@@ -40,7 +40,7 @@ const ProfileContent = () => {
     }
 
     function callPythonPost() {
-        axios.post("https://react-python-sample.herokuapp.com/flask/hello/", { message: "Hi da", type: "String" })
+        axios.post("https://react-python-sample.herokuapp.com/flask/hello/", { message: "Hi, this is message from Python POST Method", type: "String" })
             .then(response => {
                 console.log("post success: ", response)
                 setTextFromApi(response.data.message);
