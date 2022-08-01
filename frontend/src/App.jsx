@@ -77,6 +77,7 @@ const ProfileContent = () => {
                 <button onClick={getSumOfTwoNos}>Get Sum from Server</button>
             </div>
             <br></br>
+            <h5>Sum: {sum}</h5>
         </>
     );
 };
