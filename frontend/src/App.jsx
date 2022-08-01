@@ -35,6 +35,12 @@ const ProfileContent = () => {
         });
     }
 
+    // useEffect(() => {
+    //     setNum1(num1);
+    //     setNum2(num2);
+
+    // }, [])
+
     const editStyle = {
         "cursor": editAccess ? "auto" : "default",
         "opacity": editAccess ? 1 : 0.5,
@@ -50,8 +56,8 @@ const ProfileContent = () => {
             .catch(err => console.error(`Error: ${err}`))
     }
 
-    function changeInput(e, target) {
-        switch (target) {
+    function changeInput(e, label) {
+        switch (label) {
             case "num1":
                 setNum1(e.target.value);
                 break;
@@ -72,8 +78,8 @@ const ProfileContent = () => {
             }
             <h5>If you have access, then you can edit the following text box</h5>
             <div>
-                <input placeholder="Enter some number" style={editStyle} onClick={changeInput("num1")} value={num1}></input>
-                <input placeholder="Enter some number" style={editStyle} onClick={changeInput("num2")} value={num2}></input>
+                <input placeholder="Enter some number" style={editStyle} onChange={(e) => changeInput(e, "num1")} value={num1}></input>
+                <input placeholder="Enter some number" style={editStyle} onChange={(e) => changeInput(e, "num2")} value={num2}></input>
                 <button onClick={getSumOfTwoNos}>Get Sum from Server</button>
             </div>
             <br></br>
